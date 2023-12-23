@@ -3,6 +3,12 @@ import uFuzzy from "@leeoniya/ufuzzy";
 
 import PropTypes from "prop-types";
 
+function getUniqueCharacters(strings) {
+    const allChars = strings.join('');
+    const uniqueChars = new Set(allChars);
+    return Array.from(uniqueChars).join('');
+}
+
 function randomize(array) {
     for (let i = array.length - 1; i > 0; i--) {
         // Generate a random index between 0 and i
@@ -20,7 +26,8 @@ function WordList({ wordList }) {
   const [words, setWords] = useState(wordList);
   useMemo(() => {setWords(wordList)}, [wordList]);
 
-  const fuzzyOptions = {};
+  const chars = getUniqueCharacters(wordList);
+  const fuzzyOptions = { alpha: chars };
   const uf = new uFuzzy(fuzzyOptions);
   const results = uf.search(words, searchTerm);
   const indices = searchTerm
@@ -54,11 +61,18 @@ function WordList({ wordList }) {
           onClick={toggleSort}
         > {isSorted ? "Randomize" : "Sort"} </button>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {indices.map((index) => (
+        { indices 
+        ?
+        indices.map((index) => (
           <div key={index} className="p-4 border dark:bg-gray-700 rounded shadow text-gray-800 dark:text-gray-400">
             {words[index]}
           </div>
-        ))}
+        ))
+        :
+        <div className="p-4 border dark:bg-gray-700 rounded shadow text-gray-800 dark:text-gray-400">
+          No results found
+        </div>
+      }
       </div>
     </div>
   );

@@ -13,7 +13,10 @@ function ButtonNumber({ labelName, value, onChange }) {
   };
 
   const handleChange = (e) => {
-    onChange(e.target.value);
+    // e.target.value cast to number
+    const val = Number(e.target.value);
+    const num = val && val > 0 ? val : 1;
+    onChange(num);
   }
 
   return (
