@@ -10,7 +10,9 @@ abstract class WordGenerator {
 
   public constructor(order: number, words: string[]) {
     this.order = order;
-    words.forEach((word) => this.addWordToMatrix(word));
+    words.forEach((word) => {
+      this.addWordToMatrix(word.trim());
+    });
   }
 
   private addWordToMatrix(word: string): void {
@@ -40,6 +42,7 @@ abstract class WordGenerator {
 
     while (word.length < wordLength + this.order) {
       if (!this.transitionMatrix[currentNgram]) {
+        console.log("No transitions possible: '", currentNgram, "'");
         break; // No more transitions possible
       }
 
