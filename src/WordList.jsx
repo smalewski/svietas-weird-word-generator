@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import uFuzzy from "@leeoniya/ufuzzy";
+import {Grid, Input} from "@mui/joy";
 
 import PropTypes from "prop-types";
 
@@ -47,33 +48,29 @@ function WordList({ wordList }) {
     }
 
   return (
-    <div className="container mx-auto p-4">
-      <input
+    <div className="">
+      <Input
         type="text"
         placeholder="Search words..."
-        className="mb-4 p-2 border rounded focus:border-pastel-accent"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      <br/>
+      <br/>
 
-        <button
-          type="submit"
-          className="inline-flex mx-2 items-center py-2.5 px-4 text-xs font-medium text-center text-gey-500 bg-pastel-main rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-pastel-cta"
-          onClick={toggleSort}
-        > {isSorted ? "Randomize" : "Sort"} </button>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <Grid container spacing={2}>
         { indices 
         ?
         indices.map((index) => (
-          <div key={index} className="p-4 border dark:bg-gray-700 rounded shadow text-gray-800 dark:text-gray-400">
+          <Grid xs={2} key={index}>
             {words[index]}
-          </div>
+          </Grid>
         ))
         :
-        <div className="p-4 border dark:bg-gray-700 rounded shadow text-gray-800 dark:text-gray-400">
+        <Grid xs={12}>
           No results found
-        </div>
+        </Grid>
       }
-      </div>
+      </Grid>
     </div>
   );
 }
