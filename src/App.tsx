@@ -25,8 +25,8 @@ type Languages = {
 function App() {
   const [generatedWords, setGeneratedWords] = useState(null);
   const [prefix, setPrefix] = useState("");
-  const [order, setOrder] = useState(1);
-  const [minimumLength, setMinimumLength] = useState(3);
+  const [order, setOrder] = useState(3);
+  const [minimumLength, setMinimumLength] = useState(5);
   const [maximumLength, setMaximumLength] = useState(8);
   const [numberOfWords, setNumberOfWords] = useState(50);
   const [language, setLanguage] = useState("English");
