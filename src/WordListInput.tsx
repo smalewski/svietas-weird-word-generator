@@ -1,16 +1,11 @@
-import React from "react";
-import { Box, Textarea } from "@mui/joy";
+import { Textarea } from "@mui/joy";
 
 export default function WordListInput(props) {
   function handleChange(e) {
     props.setText(e.target.value);
   }
 
-  return (
-    <Box spacing={2}>
-      <Textarea onChange={handleChange} minRows={10} variant="soft" />;
-    </Box>
-  );
+  return <Textarea onChange={handleChange} minRows={10} variant="soft" />;
 }
 // function WordListInput(props) {
 //   const [text, setText] = useState("");

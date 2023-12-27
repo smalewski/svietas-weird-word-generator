@@ -1,4 +1,3 @@
-import React from "react";
 import { Tooltip as TooltipBase, Box } from "@mui/joy";
 
 export default function Tooltip({ title, children, ...props }) {

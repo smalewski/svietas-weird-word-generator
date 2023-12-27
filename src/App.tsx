@@ -1,13 +1,9 @@
 import "./App.css";
 import WordList from "./WordList";
-import { Fragment, useEffect, useState } from "react";
+import { ComponentType, Fragment, lazy, useEffect, useState } from "react";
 import WordGenerator from "./generator";
-import React from "react";
 import RangeSlider from "./RangeSlider";
 import { Button, FormLabel } from "@mui/material";
-import langEnglish from "./languages/english.json";
-import langSvieta from "./languages/svieta.json";
-import langPokemonFr from "./languages/pokemon_fr.json";
 import {
   Stack,
   Box,
@@ -22,8 +18,9 @@ import {
 import Tooltip from "./Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
 
+type Language = string[];
 type Languages = {
-  [key: string]: string[];
+  [key: string]: Language;
 };
 
 export default function App() {
@@ -33,23 +30,38 @@ export default function App() {
   const [minimumLength, setMinimumLength] = useState(5);
   const [maximumLength, setMaximumLength] = useState(8);
   const [numberOfWords, setNumberOfWords] = useState(50);
-  const [language, setLanguage] = useState("English");
+  const [language, setLanguage] = useState("");
   const [languages, setLanguages] = useState<Languages>({});
   const [custom, setCustom] = useState("");
 
-  function loadDefaultLanguages() {
-    const langs = {
-      English: langEnglish,
-      Svieta: langSvieta,
-      "French Pokémon": langPokemonFr,
-      Custom: [],
-    };
-    setLanguages(langs);
+  async function importLanguage(language: string): Promise<Language> {
+    const lang = await import(`./languages/${language}.json`);
+    return lang.default;
+  }
+
+  async function loadDefaultLanguages(): Promise<void> {
+    try {
+      const english = await importLanguage("english");
+      const svieta = await importLanguage("svieta");
+      const french_pokemon = await importLanguage("french_pokemon");
+      const langs = {
+        English: english,
+        Svieta: svieta,
+        "French Pokémon": french_pokemon,
+        Custom: [],
+      };
+
+      setLanguages(langs);
+      setLanguage("English");
+    } catch (e) {
+      console.error("Error loading languages");
+      console.error(e);
+    }
   }
 
   useEffect(() => {
     loadDefaultLanguages();
-  }, [langEnglish, langSvieta]);
+  }, []);
 
   function loadCustomLanguage() {
     const words = custom.split(/[ \n\t]+/);
@@ -62,8 +74,10 @@ export default function App() {
     if (language === "Custom") {
       loadCustomLanguage();
     }
+    console.log(language);
 
     const words = languages[language];
+    console.log(words);
     const gen = new WordGenerator(order, words);
 
     var wordList = [];
@@ -77,6 +91,7 @@ export default function App() {
 
   function handleChangeLanguage(language: string): void {
     setLanguage(language);
+    console.log(language);
   }
 
   function onClear(): void {
@@ -140,7 +155,6 @@ export default function App() {
                   max={maximumLength}
                   setMin={setMinimumLength}
                   setMax={setMaximumLength}
-                  labelName={"Word length range"}
                 />
               </FormControl>
             </Grid>
