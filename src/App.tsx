@@ -1,6 +1,6 @@
 import "./App.css";
 import WordList from "./WordList";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import WordGenerator from "./generator";
 import React from "react";
 import RangeSlider from "./RangeSlider";
@@ -12,7 +12,6 @@ import {
   Stack,
   Box,
   Grid,
-  Tooltip,
   Select,
   Option,
   Input,
@@ -20,13 +19,14 @@ import {
   Typography,
   Textarea,
 } from "@mui/joy";
+import Tooltip from "./Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
 
 type Languages = {
   [key: string]: string[];
 };
 
-function App() {
+export default function App() {
   const [generatedWords, setGeneratedWords] = useState(null);
   const [prefix, setPrefix] = useState("");
   const [order, setOrder] = useState(3);
@@ -203,7 +203,7 @@ function App() {
               <FormControl>
                 <Tooltip
                   placement="top"
-                  title="Choose your word list: select 'English' for a diverse set of 10,000 words, 'Svieta’s List' for a specially curated collection, 'French Pokémon' for 1025 pokémon names in French, or 'Custom' to use your own list."
+                  title="Choose your word list: select 'English' for a diverse set of 10,000 words, 'Svieta’s List' for a specially specially curated collection, 'French Pokémon' for 1025 pokémon names in French, or 'Custom' to use your own list."
                   color="primary"
                 >
                   <FormLabel>Language Selection</FormLabel>
@@ -260,5 +260,3 @@ function App() {
     </>
   );
 }
-
-export default App;
